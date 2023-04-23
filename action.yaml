@@ -1,16 +1,15 @@
 name: Auto Sitemap
 description: A GitHub Action that generates a sitemap XML file based on the files in the repository.
 author: cemreefe
-jobs:
-  sitemap:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-      - name: Generate Sitemap
-        run: |
-          python3 sitemap.py
+
+on:
+  push:
+    branches:
+      - main
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ github.workspace }}
+  entrypoint: 'python3 sitemap.py'
