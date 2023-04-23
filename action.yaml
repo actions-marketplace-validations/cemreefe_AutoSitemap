@@ -1,8 +1,6 @@
-name: Create Sitemap
-on:
-  push:
-    branches:
-      - main
+name: Generate Sitemap
+description: A GitHub Action that generates a sitemap XML file based on the files in the repository.
+author: @cemreefe (Cemre Efe Karakas)
 jobs:
   sitemap:
     runs-on: ubuntu-latest
@@ -14,13 +12,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      
-      - name: Find Files
-        id: find
-        run: |
-          files=$(find . -type f -name '*.*' -printf '%TY-%Tm-%Td %TH:%TM:%TS %p\n')
-          echo "::set-output name=files::$files"
-      
+
       - name: Generate Sitemap
         run: |
-          python3 sitemap.py ${{ steps.find.outputs.files }}
+          python3 sitemap.py
+
+      - name: Commit changes
+        run: |
+          git config --global user.name '${{ github.actor }}'
+          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/$GITHUB_REPOSITORY
+          git add -A 
+          git diff-index --quiet HEAD || git commit -m "Add sitemap.xml" && git push    
