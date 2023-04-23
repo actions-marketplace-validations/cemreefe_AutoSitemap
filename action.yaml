@@ -1,4 +1,4 @@
-name: Generate Sitemap
+name: Auto Sitemap
 description: A GitHub Action that generates a sitemap XML file based on the files in the repository.
 author: cemreefe
 jobs:
