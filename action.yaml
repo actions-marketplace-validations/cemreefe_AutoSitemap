@@ -16,11 +16,3 @@ jobs:
       - name: Generate Sitemap
         run: |
           python3 sitemap.py
-
-      - name: Commit changes
-        run: |
-          git config --global user.name '${{ github.actor }}'
-          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/$GITHUB_REPOSITORY
-          git add -A 
-          git diff-index --quiet HEAD || git commit -m "Add sitemap.xml" && git push    
