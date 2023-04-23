@@ -1,8 +1,6 @@
 name: Auto Sitemap
 description: A GitHub Action that generates a sitemap XML file based on the files in the repository.
 author: cemreefe
-icon: code
-color: purple
 jobs:
   sitemap:
     runs-on: ubuntu-latest
