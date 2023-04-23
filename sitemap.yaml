@@ -1,0 +1,26 @@
+name: Create Sitemap
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      - name: Find Files
+        id: find
+        run: |
+          files=$(find . -type f -name '*.*' -printf '%TY-%Tm-%Td %TH:%TM:%TS %p\n')
+          echo "::set-output name=files::$files"
+      
+      - name: Generate Sitemap
+        run: |
+          python3 sitemap.py ${{ steps.find.outputs.files }}
